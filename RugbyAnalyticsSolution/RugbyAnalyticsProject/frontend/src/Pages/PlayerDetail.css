@@ -1,0 +1,46 @@
+.player-detail-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.player-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.radar-chart {
+  flex: 1;
+  max-width: 400px;
+  height: auto;
+  align-self: flex-start;
+}
+
+.collapsible-stats {
+  margin-top: 30px;
+  width: 100%;
+}
+
+.collapsible-section {
+  margin-bottom: 15px;
+}
+
+.collapsible-section h4 {
+  cursor: pointer;
+  color: #004225;
+  margin-bottom: 5px;
+}
+
+.collapsible-section ul {
+  list-style-type: none;
+  padding-left: 15px;
+}
+
+.collapsible-section li {
+  margin-bottom: 5px;
+}

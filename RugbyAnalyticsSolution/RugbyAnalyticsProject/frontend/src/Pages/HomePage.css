@@ -1,0 +1,64 @@
+.page-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .main-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    padding: 20px;
+    background-color: #f9fafb;
+    flex: 1;
+  }
+  
+  .section {
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+  }
+  
+  .section h2 {
+    color: #1C4532;
+    margin-bottom: 12px;
+  }
+  
+  .section a {
+    color: #0056b3;
+    text-decoration: none;
+  }
+  
+  .section a:hover {
+    text-decoration: underline;
+  }
+  .dropdown {
+    margin-bottom: 10px;
+    padding: 5px;
+  }
+  
+  table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th {
+    background-color: #f0f0f0;
+  }
+  .standings-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .standings-table th, .standings-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }

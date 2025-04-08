@@ -1,0 +1,103 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9fafb;
+  margin: 0;
+  padding: 0;
+}
+
+header, footer {
+  background-color: #1C4532; /* Rugby green */
+  color: white;
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.navbar {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  font-size: 1.1rem;
+}
+
+.navbar a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar a:hover {
+  text-decoration: underline;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  padding: 20px;
+}
+
+.section {
+  background-color: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.section h2 {
+  color: #1C4532;
+  margin-bottom: 12px;
+}
+
+.section a {
+  color: #0056b3;
+  text-decoration: none;
+}
+
+.section a:hover {
+  text-decoration: underline;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+th {
+  background-color: #f0f0f0;
+}
+
+footer {
+  font-size: 0.9rem;
+  margin-top: auto;
+}
+
+/* Make body full height */
+body, html {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main wrapper takes all space except footer */
+#root {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+}

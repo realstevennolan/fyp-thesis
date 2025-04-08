@@ -1,0 +1,36 @@
+.search-input, .position-filter {
+  padding: 8px;
+  margin: 10px 5px;
+  width: 200px;
+}
+
+.players-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.players-table th, .players-table td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+.players-table th {
+  cursor: pointer;
+  background-color: #f4f4f4;
+}
+
+.pagination-toggle {
+  margin: 10px 0;
+}
+
+.pagination-controls button {
+  margin: 0 5px;
+  padding: 5px 10px;
+}
+
+.active-page {
+  font-weight: bold;
+  background-color: #ddd;
+}
