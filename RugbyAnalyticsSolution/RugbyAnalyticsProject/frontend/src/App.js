@@ -4,9 +4,7 @@ import HomePage from './Pages/HomePage';
 import MatchDetail from './Pages/MatchDetail';
 import PlayersPage from './Pages/PlayersPage';
 import PlayerDetail from './Pages/PlayerDetail';
-// Import your other pages when ready
-// import PlayersPage from './Pages/PlayersPage';
-// import ClubsPage from './Pages/ClubsPage';
+
 
 const App = () => {
   return (

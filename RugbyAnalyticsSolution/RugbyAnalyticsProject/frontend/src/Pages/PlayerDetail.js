@@ -3,10 +3,11 @@ import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import { Radar } from 'react-chartjs-2';
+import { Radar, Doughnut } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
   RadialLinearScale,
+  ArcElement,
   PointElement,
   LineElement,
   Filler,
@@ -17,6 +18,7 @@ import './PlayerDetail.css';
 
 ChartJS.register(
   RadialLinearScale,
+  ArcElement,
   PointElement,
   LineElement,
   Filler,
@@ -27,13 +29,12 @@ ChartJS.register(
 const PlayerDetail = () => {
   const { id } = useParams();
   const [player, setPlayer] = useState(null);
-
   const [expandedSections, setExpandedSections] = useState({
     Attack: true,
     Defense: true,
     Kicking: true,
     Discipline: true,
-    'Set Pieces': true, // ✅ Fixed key with space
+    'Set Pieces': true,
   });
 
   useEffect(() => {
@@ -49,8 +50,8 @@ const PlayerDetail = () => {
   const calculateAverage = (keys) => {
     const total = keys.reduce((sum, key) => {
       if (stats[key]) {
-        if (key === 'meters_gained'|| key === 'kick_meters') {
-          return sum + stats[key] / 1; // normalize this one
+        if (key === 'meters_gained' || key === 'kick_meters') {
+          return sum + stats[key] / 1;
         }
         return sum + stats[key];
       }
@@ -92,21 +93,53 @@ const PlayerDetail = () => {
     }
   };
 
-  const renderStatsSection = (title, keys) => (
+  const renderDoughnut = (label, key) => {
+    const value = stats[key];
+    if (!value || value < 0 || value > 100) return null;
+    const data = {
+      labels: ['Success', 'Failure'],
+      datasets: [
+        {
+          data: [value, 100 - value],
+          backgroundColor: ['#28a745', '#dee2e6'],
+          borderWidth: 1
+        }
+      ]
+    };
+    const options = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { position: 'bottom' }
+      }
+    };
+
+    return (
+      <div className="doughnut-container">
+        <div className="doughnut-chart-wrapper">
+          <Doughnut data={data} options={options} />
+        </div>
+        <p className="doughnut-label">{label}: {value}%</p>
+      </div>
+    );
+  };
+
+  const renderStatsSection = (title, keys, doughnuts = []) => (
     <div className="collapsible-section">
-      <h4 onClick={() =>
-        setExpandedSections(prev => ({ ...prev, [title]: !prev[title] }))
-      }>
+      <h4 onClick={() => setExpandedSections(prev => ({ ...prev, [title]: !prev[title] }))}>
         {title} {expandedSections[title] ? '▲' : '▼'}
       </h4>
       {expandedSections[title] && (
-        <ul>
-          {keys.map(key => (
-            stats[key] !== undefined && (
-              <li key={key}><strong>{key.replace(/_/g, ' ')}:</strong> {stats[key]}</li>
-            )
-          ))}
-        </ul>
+        <div>
+          <ul>
+            {keys.map(key =>
+              stats[key] !== undefined && (
+                <li key={key}><strong>{key.replace(/_/g, ' ')}:</strong> {stats[key]}</li>
+              )
+            )}
+          </ul>
+          {doughnuts.map(({ label, key }) => stats[key] !== undefined && renderDoughnut(label, key))}
+        </div>
       )}
     </div>
   );
@@ -127,10 +160,15 @@ const PlayerDetail = () => {
             <div className="collapsible-stats">
               <h3>Stats</h3>
               {renderStatsSection('Attack', ['points_scored', 'tries_scored', 'offloads', 'meters_gained', 'defenders_beaten', 'clean_breaks'])}
-              {renderStatsSection('Defense', ['tackles_made', 'total_tackles_missed', 'turnovers_won'])}
+              {renderStatsSection('Defense', ['tackles_made', 'total_tackles_missed', 'turnovers_won'], [
+                { label: 'Tackle Success %', key: 'tackle_success_percentage' }
+              ])}
               {renderStatsSection('Kicking', ['conversions_scored', 'drop_goals_scored', 'kicks_from_hand', 'kicks_retained', 'tries_from_kicks', 'kick_meters'])}
               {renderStatsSection('Discipline', ['yellow_cards', 'red_cards', 'penalties_conceded', 'scrum_offences', 'lineout_offences'])}
-              {renderStatsSection('Set Pieces', ['lineout_won', 'lineout_steals', 'scrum_won', 'scrum_lost', 'scrum_penalties_won'])}
+              {renderStatsSection('Set Pieces', ['lineout_won', 'lineout_steals', 'scrum_won', 'scrum_lost', 'scrum_penalties_won'], [
+                { label: 'Lineout Success %', key: 'lineout_success_percentage' },
+                { label: 'Scrum Win %', key: 'scrums_won_percentage' }
+              ])}
             </div>
           </div>
 

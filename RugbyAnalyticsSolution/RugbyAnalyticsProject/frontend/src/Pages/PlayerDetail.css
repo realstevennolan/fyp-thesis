@@ -27,7 +27,7 @@
 }
 
 .collapsible-section {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .collapsible-section h4 {
@@ -44,3 +44,27 @@
 .collapsible-section li {
   margin-bottom: 5px;
 }
+
+.doughnut-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* Align with stats */
+  margin-top: 10px;
+  margin-bottom: 10px;
+  font-family: inherit; /* Match app font */
+  font-size: 16px;
+  padding-left: 10px;
+}
+
+.doughnut-chart-wrapper {
+  width: 160px;
+  height: 160px;
+}
+
+.doughnut-label {
+  margin-top: 6px;
+  font-size: 16px;
+  font-weight: normal;
+  color: #212529;
+}
+
