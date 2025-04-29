@@ -2,45 +2,50 @@
 Definition of views.
 """
 
-# app/views.py
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import RetrieveAPIView 
-from .models import Match, TeamStanding, Player
-from .serializers import MatchSerializer, TeamStandingSerializer, PlayerSerializer
+from rest_framework.generics import RetrieveAPIView, ListAPIView
+from .models import Match, TeamStanding, Player, Team, TeamMatchStat
+from .serializers import (
+    MatchSerializer,
+    TeamStandingSerializer,
+    PlayerSerializer,
+    TeamSerializer,
+    TeamMatchStatSerializer
+)
 from datetime import date
 from django.db.models import Q
 
 
+# Fixtures
 class UpcomingFixturesView(APIView):
     def get(self, request):
         fixtures = Match.objects.filter(date__gte=date.today()).order_by('date')
         return Response(MatchSerializer(fixtures, many=True).data)
 
-class StandingsView(APIView):
-    def get(self, request):
-        standings = TeamStanding.objects.order_by('-points')
-        return Response(TeamStandingSerializer(standings, many=True).data)
-
-# All fixtures (no limit)
 class AllFixturesView(APIView):
     def get(self, request):
-        fixtures = Match.objects.all().order_by('date')  # order by date
+        fixtures = Match.objects.all().order_by('date')
         return Response(MatchSerializer(fixtures, many=True).data)
 
-    
-# Fixture detail by ID
 class FixtureDetailView(RetrieveAPIView):
     queryset = Match.objects.all()
     serializer_class = MatchSerializer
     lookup_field = 'id'
 
-# player search
+
+# Standings
+class StandingsView(APIView):
+    def get(self, request):
+        standings = TeamStanding.objects.order_by('-points')
+        return Response(TeamStandingSerializer(standings, many=True).data)
+
+
+# Players
 class PlayersListView(APIView):
     def get(self, request):
         query = request.GET.get('q', '')
         players = Player.objects.all()
-
         if query:
             players = players.filter(
                 Q(first_name__icontains=query) |
@@ -48,12 +53,41 @@ class PlayersListView(APIView):
                 Q(position__icontains=query) |
                 Q(club__icontains=query)
             )
+        return Response(PlayerSerializer(players, many=True).data)
 
-        serializer = PlayerSerializer(players, many=True)
-        return Response(serializer.data)
-
-# Player detail by ID
 class PlayerDetailView(RetrieveAPIView):
     queryset = Player.objects.all()
     serializer_class = PlayerSerializer
     lookup_field = 'pk'
+
+
+# Clubs
+class ClubsListView(APIView):
+    def get(self, request):
+        clubs = Player.objects.values_list('club', flat=True).distinct()
+        cleaned_clubs = [club.replace('team-', '') for club in clubs if club]
+        return Response(cleaned_clubs)
+
+class ClubDetailView(APIView):
+    def get(self, request, club_name):
+        full_name = f"team-{club_name.lower()}"
+        players = Player.objects.filter(club__iexact=full_name)
+        return Response(PlayerSerializer(players, many=True).data)
+
+class ClubStandingView(APIView):
+    def get(self, request, club_name):
+        full_name = f"team-{club_name.lower()}"
+        standing = TeamStanding.objects.filter(team__name=full_name).first()
+        return Response(TeamStandingSerializer(standing).data if standing else {})
+
+class ClubStatsView(APIView):
+    def get(self, request, club_name):
+        full_name = f"team-{club_name.lower()}"
+        stats = TeamMatchStat.objects.filter(team__name=full_name)
+        return Response(TeamMatchStatSerializer(stats, many=True).data)
+
+class ClubUpcomingMatchesView(APIView):
+    def get(self, request, club_name):
+        full_name = f"team-{club_name.lower()}"
+        matches = Match.objects.filter(home_team__name=full_name).order_by('date')[:5]
+        return Response(MatchSerializer(matches, many=True).data)
