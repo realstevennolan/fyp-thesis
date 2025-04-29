@@ -37,7 +37,7 @@ It was developed as part of a Final Year Project (FYP) focused on expanding anal
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/rugby-analytics-platform.git
+git clone https://github.com/realstevennolan/fyp-thesis.git
 cd rugby-analytics-platform
 
 cd RugbyAnalyticsProject
