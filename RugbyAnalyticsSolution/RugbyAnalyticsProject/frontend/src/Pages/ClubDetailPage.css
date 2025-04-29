@@ -122,3 +122,46 @@
   .stat-value {
     color: #222;
   }
+  /* Optional: tweak chart padding */
+.stats-section canvas {
+    max-width: 100%;
+  }
+  
+  .charts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2x2 layout */
+    gap: 30px;
+    margin-top: 40px;
+    justify-items: center;
+    align-items: center;
+  }
+  
+  .chart-box {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #003d29;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0, 61, 41, 0.1);
+  }
+  
+  .fixtures-section {
+    text-align: left;
+    max-width: 700px;
+    margin: 20px auto;
+  }
+  
+  .fixtures-section h3 {
+    margin-top: 20px;
+    color: #003d29;
+  }
+  
+  .fixtures-section ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .fixtures-section li {
+    padding: 8px 0;
+    border-bottom: 1px solid #ccc;
+  }
+  

@@ -48,15 +48,19 @@ class TeamSerializer(serializers.ModelSerializer):
 
 
 class TeamMatchStatSerializer(serializers.ModelSerializer):
-    team_name = serializers.CharField(source='team.name', read_only=True)
-
     class Meta:
         model = TeamMatchStat
-        fields = ['team_name', 'points_scored', 'tries_scored', 'offloads', 'meters_gained',
-                  'defenders_beaten', 'clean_breaks', 'tackles_made', 'tackle_success',
-                  'total_tackles_missed', 'turnovers_lost', 'turnovers_won', 'penalties_scored',
-                  'penalties_missed', 'conversions_scored', 'conversions_missed', 'drop_goals_scored',
-                  'drop_goals_missed', 'kicks_from_hand', 'kicks_retained', 'tries_from_kicks',
-                  'kick_meters', 'yellow_cards', 'red_cards', 'penalties_conceded',
-                  'scrum_offences', 'lineout_offences', 'lineout_won', 'lineout_steals',
-                  'scrum_won', 'scrum_lost', 'scrums_won_percentage', 'lineout_success_percentage']
+        fields = [
+            'id',
+            'team',
+            'points_scored',
+            'tries_scored',
+            'tackles_made',
+            'total_tackles_missed',
+            'turnovers_lost',
+            'turnovers_won',
+            'lineouts_won',
+            'lineouts_lost',
+            'scrums_won',
+            'scrums_lost',
+        ]

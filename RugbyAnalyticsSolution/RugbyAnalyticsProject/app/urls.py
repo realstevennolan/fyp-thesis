@@ -10,7 +10,10 @@ from .views import (
     ClubDetailView,
     ClubStandingView,
     ClubStatsView,
-    ClubUpcomingMatchesView
+    ClubUpcomingMatchesView,
+    ClubStatsByIdView,
+    TeamStatsByNameView,
+    ClubFixturesView,
 )
 
 urlpatterns = [
@@ -28,4 +31,10 @@ urlpatterns = [
     path('api/clubs/<str:club_name>/standing/', ClubStandingView.as_view()),
     path('api/clubs/<str:club_name>/stats/', ClubStatsView.as_view()),
     path('api/clubs/<str:club_name>/matches/', ClubUpcomingMatchesView.as_view()),
+    path('api/teamstats/<int:team_id>/', ClubStatsByIdView.as_view()),
+    path('api/teamstats/by-name/<str:club_name>/', TeamStatsByNameView.as_view()),
+    path('api/clubs/<str:club_name>/fixtures/', ClubFixturesView.as_view()),
+
+
+
 ]

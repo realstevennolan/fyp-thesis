@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.generics import RetrieveAPIView
-from .models import Match, TeamStanding, Player, TeamMatchStat
+from .models import Match, TeamStanding, Player, TeamMatchStat, Team
 from .serializers import (
     MatchSerializer,
     TeamStandingSerializer,
@@ -89,3 +89,39 @@ class ClubUpcomingMatchesView(APIView):
         full_name = f"team-{club_name.lower()}"
         matches = Match.objects.filter(home_team__name=full_name).order_by('date')[:5]
         return Response(MatchSerializer(matches, many=True).data)
+
+class ClubStatsByIdView(APIView):
+    def get(self, request, team_id):
+        stats = TeamMatchStat.objects.filter(team__id=team_id)
+        if not stats.exists():
+            return Response({"message": "No stats found for this team."}, status=404)
+        return Response(TeamMatchStatSerializer(stats, many=True).data)
+
+# views.py
+class TeamStatsByNameView(APIView):
+    def get(self, request, club_name):
+        stats = TeamMatchStat.objects.filter(team__name__iexact=club_name)
+        return Response(TeamMatchStatSerializer(stats, many=True).data)
+
+class ClubFixturesView(APIView):
+    def get(self, request, club_name):
+        full_name = club_name.lower()
+
+        upcoming = Match.objects.filter(
+            date__gte=date.today()
+        ).filter(
+            Q(home_team__name__iexact=full_name) |
+            Q(away_team__name__iexact=full_name)
+        ).order_by('date')
+
+        results = Match.objects.filter(
+            date__lt=date.today()
+        ).filter(
+            Q(home_team__name__iexact=full_name) |
+            Q(away_team__name__iexact=full_name)
+        ).order_by('-date')[:5]
+
+        return Response({
+            "upcoming": MatchSerializer(upcoming, many=True).data,
+            "results": MatchSerializer(results, many=True).data
+        })
