@@ -1,70 +1,75 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Rugby Analytics Platform
 
-## Available Scripts
+## Overview
+This project is a full-stack **rugby analytics platform** that collects, processes, and visualizes rugby match and player data. It allows users to explore detailed player profiles, team statistics, fixtures, and results through an interactive web interface.
 
-In the project directory, you can run:
+The platform is built with:
+- **Django** (backend / REST API)
+- **React.js** (frontend)
+- **SQLite** (database for local development)
+- **Chart.js** (for interactive data visualization)
 
-### `npm start`
+It was developed as part of a Final Year Project (FYP) focused on expanding analytics capabilities in rugby, an area often underserved compared to other major sports.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Features
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- **Player Profiles**: View player details, clubs, and physical stats.
+- **Team Pages**: Explore club rosters, team statistics, and recent match results.
+- **Data Visualizations**: Doughnut charts for turnovers, tackles, lineouts, and scrums.
+- **Fixture and Result Listings**: Match information is organized by upcoming fixtures and past results.
+- **Search and Filter**: Search players or filter by position.
+- **API-Driven**: Data delivered dynamically from Django REST Framework endpoints.
+- **Ethical Data Collection**: Designed with respect for scraping ethics and data integrity.
 
-### `npm test`
+## Technologies Used
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+| Area          | Technology          |
+|---------------|----------------------|
+| Backend       | Python, Django REST Framework |
+| Frontend      | React.js, Chart.js    |
+| Database      | SQLite (development)  |
+| Deployment    | Localhost (development) |
+| Visualization | Chart.js Doughnut charts |
+| Testing       | Django's Test Framework (unittest) |
 
-### `npm run build`
+## Installation
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. Clone the repository
+```bash
+git clone https://github.com/yourusername/rugby-analytics-platform.git
+cd rugby-analytics-platform
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+cd RugbyAnalyticsProject
+python -m venv venv
+venv\\Scripts\\activate      # Windows
+# source venv/bin/activate  # Mac/Linux
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+pip install -r requirements.txt
 
-### `npm run eject`
+python manage.py migrate
+python manage.py runserver
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Backend will run at: http://localhost:8000/
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+3. Frontend Setup (React)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+cd frontend
+npm install
+npm start
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| Endpoint                                | Description                                  |
+|-----------------------------------------|----------------------------------------------|
+| /api/fixtures/                          | Get upcoming fixtures                       |
+| /api/fixtures/all/                      | Get all fixtures                            |
+| /api/fixtures/<id>/                     | Get fixture details by ID                   |
+| /api/standings/                         | Get league standings                        |
+| /api/players/                           | Get players list (with optional search query)|
+| /api/players/<id>/                      | Get player details by ID                    |
+| /api/clubs/                             | Get list of clubs                           |
+| /api/clubs/<club_name>/                 | Get players of a specific club              |
+| /api/clubs/<club_name>/standing/        | Get standing of a specific club             |
+| /api/clubs/<club_name>/stats/           | Get stats for a specific club               |
+| /api/clubs/<club_name>/matches/         | Get upcoming matches for a specific club    |
+| /api/teamstats/by-name/<club_name>/     | Get team match stats for a specific club name|

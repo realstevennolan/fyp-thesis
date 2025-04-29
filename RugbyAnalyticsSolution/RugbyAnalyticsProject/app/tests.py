@@ -1,12 +1,8 @@
-"""
-This file demonstrates writing tests using the unittest module. These will pass
-when you run "manage.py test".
-"""
-
 from django.test import TestCase
 from rest_framework.test import APIClient
 from .models import Team, Match, Player, PlayerMatchStat, TeamStanding
 from datetime import datetime
+
 
 class RealDataTests(TestCase):
     def setUp(self):
@@ -66,7 +62,10 @@ class RealDataTests(TestCase):
     def test_upcoming_fixtures_view(self):
         response = self.client.get("/api/fixtures/")
         self.assertEqual(response.status_code, 200)
-        self.assertTrue(any("Ulster" in match['home_team'] for match in response.data))
+        self.assertTrue(
+            any(match['home_team'] == "Ulster" for match in response.data),
+            msg=f"Expected 'Ulster' in home_team. Got: {response.data}"
+        )
 
     def test_all_fixtures_view(self):
         response = self.client.get("/api/fixtures/all/")
@@ -81,7 +80,7 @@ class RealDataTests(TestCase):
     def test_standings_view(self):
         response = self.client.get("/api/standings/")
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data[0]['team'], "Leinster")
+        self.assertEqual(response.data[0]['team_name'], "Leinster")
 
     def test_player_search_view(self):
         response = self.client.get("/api/players/?q=destiny")
